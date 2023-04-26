@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { connect } = require("../db.js");
 const { Book } = require("../models/Book.js");
+const { faker } = require("@faker-js/faker");
 
 const bookList = [
   {
@@ -29,6 +30,15 @@ const bookList = [
     pages: 279,
   },
 ];
+
+for (let i = 0; i < 50; i++) {
+  const newBook = {
+    title: faker.music.songName(),
+    author: faker.name.fullName(),
+    pages: faker.random.numeric(3),
+  };
+  bookList.push(newBook);
+}
 
 connect().then(() => {
   console.log("Tenemos conexión");
