@@ -68,7 +68,7 @@ router.get("/title/:title", async (req, res) => {
 
 // Endpoint de creación
 
-router.post("/book", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const book = new Book({
       title: req.body.title,
