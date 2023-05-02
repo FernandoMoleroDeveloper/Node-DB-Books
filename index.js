@@ -1,30 +1,33 @@
 const express = require("express");
 const { bookRouter } = require("./Routes/book.routes.js");
 
-// Conexión a BBDD
-const { connect } = require("./db.js");
-connect();
+const main = async () => {
+  // Conexión a BBDD
+  const { connect } = require("./db.js");
+  await connect();
 
-// Configuración del server
+  // Configuración del server
 
-const PORT = 3000;
-const server = express();
-server.use(express.json());
-server.use(express.urlencoded({ extended: false }));
+  const PORT = 3000;
+  const server = express();
+  server.use(express.json());
+  server.use(express.urlencoded({ extended: false }));
 
-// Rutas
-const router = express.Router();
-router.get("/", (req, res) => {
-  res.send("Esta es la home de nuestra API");
-});
-router.get("*", (req, res) => {
-  res.status(404).send("Vaya!! no hemos encontrado la ruta, busca en GoogleMaps");
-});
+  // Rutas
+  const router = express.Router();
+  router.get("/", (req, res) => {
+    res.send("Esta es la home de nuestra API");
+  });
+  router.get("*", (req, res) => {
+    res.status(404).send("Vaya!! no hemos encontrado la ruta, busca en GoogleMaps");
+  });
 
-// Usamos las rutas
-server.use("/book", bookRouter);
-server.use("/", router);
+  // Usamos las rutas
+  server.use("/book", bookRouter);
+  server.use("/", router);
 
-server.listen(PORT, () => {
-  console.log(`Server levantado en el puerto ${PORT}`);
-});
+  server.listen(PORT, () => {
+    console.log(`Server levantado en el puerto ${PORT}`);
+  });
+};
+main();
