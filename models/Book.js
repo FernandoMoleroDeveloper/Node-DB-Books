@@ -17,6 +17,19 @@ const bookSchema = new Schema(
       type: Number,
       required: true,
     },
+    publisher: {
+      type: {
+        name: {
+          type: String,
+          required: true,
+        },
+        country: {
+          type: String,
+          required: true,
+        },
+      },
+      required: false,
+    },
   },
   {
     timestamps: true,

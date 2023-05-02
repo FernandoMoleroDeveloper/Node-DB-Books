@@ -16,11 +16,6 @@ router.get("/", async (req, res) => {
       .limit(limit)
       .skip((page - 1) * limit);
 
-    // LIMIT 10, PAGE 1 -> SKIP = 0
-    // LIMIT 10, PAGE 2 -> SKIP = 10
-    // LIMIT 10, PAGE 3 -> SKIP = 20
-    // ...
-
     // Num total de elementos
     const totalElements = await Book.countDocuments();
 
@@ -70,11 +65,7 @@ router.get("/title/:title", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const book = new Book({
-      title: req.body.title,
-      author: req.body.author,
-      pages: req.body.pages,
-    });
+    const book = new Book(req.body);
     const createdBook = await book.save();
     return res.status(201).json(createdBook);
   } catch (error) {

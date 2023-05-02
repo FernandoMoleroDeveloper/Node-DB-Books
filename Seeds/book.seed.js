@@ -8,26 +8,46 @@ const bookList = [
     title: "Harry Potter",
     author: "J.K. Rowling",
     pages: 543,
+    publisher: {
+      name: "Alfaguara",
+      country: "Spain",
+    },
   },
   {
     title: "1984",
     author: "George Orwell",
     pages: 328,
+    publisher: {
+      name: "Anaya",
+      country: "Spain",
+    },
   },
   {
     title: "To Kill a Mockingbird",
     author: "Harper Lee",
     pages: 281,
+    publisher: {
+      name: "Alma Books",
+      country: "England",
+    },
   },
   {
     title: "The Great Gatsby",
     author: "F. Scott Fitzgerald",
     pages: 180,
+    publisher: {
+      name: "Oberon",
+      country: "England",
+    },
   },
   {
     title: "Pride and Prejudice",
     author: "Jane Austen",
     pages: 279,
+    publisher: {
+      name: "Koehler",
+      country: "USA",
+    },
   },
 ];
 
@@ -40,16 +60,26 @@ for (let i = 0; i < 50; i++) {
   bookList.push(newBook);
 }
 
-connect().then(() => {
-  console.log("Tenemos conexión");
+const bookSeed = async () => {
+  try {
+    await connect();
+    console.log("Tenemos conexión");
 
-  Book.collection.drop().then(() => {
-    console.log("Books eliminados");
+    // Borrar datos
+    await Book.collection.drop();
+    console.log("Books borrados");
 
+    // Añadimos libros
     const documents = bookList.map((book) => new Book(book));
-    Book.insertMany(documents)
-      .then(() => console.log("Datos guardados correctamente!"))
-      .catch((error) => console.error(error))
-      .finally(() => mongoose.disconnect());
-  });
-});
+    await Book.insertMany(documents);
+
+    console.log("Datos guardados correctamente!");
+  } catch (error) {
+    console.error("ERROR AL CONECTAR CON LA BBDD");
+    console.error(error);
+  } finally {
+    mongoose.disconnect();
+  }
+};
+
+bookSeed();
