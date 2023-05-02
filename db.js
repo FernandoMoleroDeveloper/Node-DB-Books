@@ -19,6 +19,7 @@ const connect = async () => {
   const name = database.connection.name;
   const host = database.connection.host;
   console.log(`Concectando a la base de datos ${name} en el host ${host}`);
+  return database;
 };
 
 module.exports = { connect };
