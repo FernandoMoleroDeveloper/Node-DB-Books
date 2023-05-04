@@ -14,7 +14,8 @@ router.get("/", async (req, res) => {
     const limit = parseInt(req.query.limit);
     const books = await Book.find()
       .limit(limit)
-      .skip((page - 1) * limit);
+      .skip((page - 1) * limit)
+      .populate("author");
 
     // Num total de elementos
     const totalElements = await Book.countDocuments();
@@ -35,7 +36,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const book = await Book.findById(id).populate("Author");
+    const book = await Book.findById(id).populate("author");
     if (book) {
       res.json(book);
     } else {
@@ -50,7 +51,7 @@ router.get("/title/:title", async (req, res) => {
   const title = req.params.title;
 
   try {
-    const book = await Book.find({ title: new RegExp("^" + title.toLowerCase(), "i") }).populate("Author");
+    const book = await Book.find({ title: new RegExp("^" + title.toLowerCase(), "i") }).populate("author");
     if (book?.length) {
       res.json(book);
     } else {
