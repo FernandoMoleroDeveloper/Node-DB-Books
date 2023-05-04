@@ -1,5 +1,6 @@
 const express = require("express");
 const { bookRouter } = require("./Routes/book.routes.js");
+const { authorRouter } = require("./Routes/author.routes.js");
 
 const main = async () => {
   // Conexión a BBDD
@@ -24,6 +25,7 @@ const main = async () => {
 
   // Usamos las rutas
   server.use("/book", bookRouter);
+  server.use("/author", authorRouter);
   server.use("/", router);
 
   server.listen(PORT, () => {

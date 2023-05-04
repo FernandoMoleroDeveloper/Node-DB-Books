@@ -6,7 +6,6 @@ const { faker } = require("@faker-js/faker");
 const bookList = [
   {
     title: "Harry Potter",
-    author: "J.K. Rowling",
     pages: 543,
     publisher: {
       name: "Alfaguara",
@@ -15,7 +14,6 @@ const bookList = [
   },
   {
     title: "1984",
-    author: "George Orwell",
     pages: 328,
     publisher: {
       name: "Anaya",
@@ -24,7 +22,6 @@ const bookList = [
   },
   {
     title: "To Kill a Mockingbird",
-    author: "Harper Lee",
     pages: 281,
     publisher: {
       name: "Alma Books",
@@ -33,7 +30,6 @@ const bookList = [
   },
   {
     title: "The Great Gatsby",
-    author: "F. Scott Fitzgerald",
     pages: 180,
     publisher: {
       name: "Oberon",
@@ -42,7 +38,6 @@ const bookList = [
   },
   {
     title: "Pride and Prejudice",
-    author: "Jane Austen",
     pages: 279,
     publisher: {
       name: "Koehler",
@@ -54,7 +49,6 @@ const bookList = [
 for (let i = 0; i < 50; i++) {
   const newBook = {
     title: faker.music.songName(),
-    author: faker.name.fullName(),
     pages: faker.random.numeric(3),
   };
   bookList.push(newBook);
