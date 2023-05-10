@@ -35,7 +35,6 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
   try {
     const id = req.params.id;
     const book = await Book.findById(id).populate("author");
@@ -51,7 +50,6 @@ router.get("/:id", async (req, res) => {
 });
 
 router.get("/title/:title", async (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
   const title = req.params.title;
 
   try {
@@ -70,7 +68,6 @@ router.get("/title/:title", async (req, res) => {
 // Endpoint de creación
 
 router.post("/", async (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
   try {
     const book = new Book(req.body);
     const createdBook = await book.save();
@@ -88,7 +85,6 @@ router.post("/", async (req, res) => {
 // Endpoint para eliminar
 
 router.delete("/:id", async (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
   try {
     const id = req.params.id;
     const bookDeleted = await Book.findByIdAndDelete(id);
@@ -106,7 +102,6 @@ router.delete("/:id", async (req, res) => {
 // Endpoint update
 
 router.put("/:id", async (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
   try {
     const id = req.params.id;
     const bookUpdated = await Book.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });

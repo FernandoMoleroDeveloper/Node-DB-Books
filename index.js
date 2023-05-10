@@ -1,6 +1,7 @@
 const express = require("express");
 const { bookRouter } = require("./Routes/book.routes.js");
 const { authorRouter } = require("./Routes/author.routes.js");
+const cors = require("cors");
 
 const main = async () => {
   // Conexión a BBDD
@@ -13,6 +14,7 @@ const main = async () => {
   const server = express();
   server.use(express.json());
   server.use(express.urlencoded({ extended: false }));
+  server.use(cors());
 
   // Rutas
   const router = express.Router();
