@@ -20,8 +20,8 @@ const bookSchema = new Schema(
     pages: {
       type: Number,
       required: true,
-      minLength: [100, "Menos de 100 paginas es una mierda de libro"],
-      maxLength: [10000, "Con tantas páginas eso es infumable"],
+      min: 100,
+      max: [10000, "Con tantas páginas eso es infumable"],
     },
     publisher: {
       type: {
