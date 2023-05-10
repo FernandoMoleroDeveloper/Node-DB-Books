@@ -20,7 +20,7 @@ const bookSchema = new Schema(
     pages: {
       type: Number,
       required: true,
-      min: 100,
+      min: [10, "Eso ni es libro ni es na"],
       max: [10000, "Con tantas páginas eso es infumable"],
     },
     publisher: {
