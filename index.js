@@ -14,7 +14,11 @@ const main = async () => {
   const server = express();
   server.use(express.json());
   server.use(express.urlencoded({ extended: false }));
-  server.use(cors());
+  server.use(
+    cors({
+      origin: "http://localhost:3000",
+    })
+  );
 
   // Rutas
   const router = express.Router();

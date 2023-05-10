@@ -16,7 +16,9 @@ function App() {
       <h2>Libros:</h2>
       <ul>
         {books?.data?.map((book) => (
-          <li>{book.title}</li>
+          <li key={book._id}>
+            {book.title} ({book.author.name})
+          </li>
         ))}
       </ul>
     </div>

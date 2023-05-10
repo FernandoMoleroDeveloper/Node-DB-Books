@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint",
     "normalize:books": "node ./Normalization/book.normalization.js",
+    "normalize:authors": "node ./Normalization/author.normalization.js",
     "seed:books": "node ./seeds/book.seed.js",
     "seed:authors": "node ./seeds/author.seed.js",
     "seed:book-relations": "node ./seeds/book-relationseed.seed.js",
