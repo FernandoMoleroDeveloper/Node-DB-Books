@@ -48,6 +48,7 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
+  res.set("Access-Contol-Allow-Origin", "http://localhost:3000");
   try {
     const id = req.params.id;
     const author = await Author.findById(id);
@@ -70,6 +71,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.get("/name/:name", async (req, res) => {
+  res.set("Access-Contol-Allow-Origin", "http://localhost:3000");
   const name = req.params.name;
 
   try {
@@ -88,6 +90,7 @@ router.get("/name/:name", async (req, res) => {
 // Endpoint de creación
 
 router.post("/", async (req, res) => {
+  res.set("Access-Contol-Allow-Origin", "http://localhost:3000");
   try {
     const author = new Author(req.body);
     const createdAuthor = await author.save();
@@ -101,6 +104,7 @@ router.post("/", async (req, res) => {
 // Endpoint para eliminar
 
 router.delete("/:id", async (req, res) => {
+  res.set("Access-Contol-Allow-Origin", "http://localhost:3000");
   try {
     const id = req.params.id;
     const authorDeleted = await Author.findByIdAndDelete(id);
@@ -118,6 +122,7 @@ router.delete("/:id", async (req, res) => {
 // Endpoint update
 
 router.put("/:id", async (req, res) => {
+  res.set("Access-Contol-Allow-Origin", "http://localhost:3000");
   try {
     const id = req.params.id;
     const authorUpdated = await Author.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
