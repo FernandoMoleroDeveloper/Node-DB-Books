@@ -8,6 +8,7 @@ const bookSchema = new Schema(
     title: {
       type: String,
       required: true,
+      minLength: [3, "Dame detalle que 3 es una mierda"],
       trim: true,
     },
     author: {
