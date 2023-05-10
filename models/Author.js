@@ -8,10 +8,17 @@ const authorSchema = new Schema(
     name: {
       type: String,
       required: true,
+      trim: true,
+      minLength: 3,
+      maxLength: 20,
     },
     country: {
       type: String,
       required: true,
+      trim: true,
+      minLength: 3,
+      maxLength: 20,
+      uppercase: true,
     },
   },
   {

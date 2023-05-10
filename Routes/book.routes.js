@@ -29,11 +29,13 @@ router.get("/", async (req, res) => {
 
     res.json(response);
   } catch (error) {
+    console.error(error);
     res.status(500).json(error);
   }
 });
 
 router.get("/:id", async (req, res) => {
+  res.set("Access-Contol-Allow-Origin", "http://localhost:3000");
   try {
     const id = req.params.id;
     const book = await Book.findById(id).populate("author");
@@ -43,11 +45,13 @@ router.get("/:id", async (req, res) => {
       res.status(404).json({});
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json(error);
   }
 });
 
 router.get("/title/:title", async (req, res) => {
+  res.set("Access-Contol-Allow-Origin", "http://localhost:3000");
   const title = req.params.title;
 
   try {
@@ -58,6 +62,7 @@ router.get("/title/:title", async (req, res) => {
       res.status(404).json([]);
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json(error);
   }
 });
@@ -65,18 +70,25 @@ router.get("/title/:title", async (req, res) => {
 // Endpoint de creación
 
 router.post("/", async (req, res) => {
+  res.set("Access-Contol-Allow-Origin", "http://localhost:3000");
   try {
     const book = new Book(req.body);
     const createdBook = await book.save();
     return res.status(201).json(createdBook);
   } catch (error) {
-    res.status(500).json(error);
+    console.error(error);
+    if (error?.name === "ValidationError") {
+      res.status(400).json(error);
+    } else {
+      res.status(500).json(error);
+    }
   }
 });
 
 // Endpoint para eliminar
 
 router.delete("/:id", async (req, res) => {
+  res.set("Access-Contol-Allow-Origin", "http://localhost:3000");
   try {
     const id = req.params.id;
     const bookDeleted = await Book.findByIdAndDelete(id);
@@ -86,6 +98,7 @@ router.delete("/:id", async (req, res) => {
       res.status(404).json({});
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json(error);
   }
 });
@@ -93,16 +106,22 @@ router.delete("/:id", async (req, res) => {
 // Endpoint update
 
 router.put("/:id", async (req, res) => {
+  res.set("Access-Contol-Allow-Origin", "http://localhost:3000");
   try {
     const id = req.params.id;
-    const bookUpdated = await Book.findByIdAndUpdate(id, req.body, { new: true });
+    const bookUpdated = await Book.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
     if (bookUpdated) {
       res.json(bookUpdated);
     } else {
       res.status(404).json({});
     }
   } catch (error) {
-    res.status(500).json(error);
+    console.error(error);
+    if (error?.name === "ValidationError") {
+      res.status(400).json(error);
+    } else {
+      res.status(500).json(error);
+    }
   }
 });
 

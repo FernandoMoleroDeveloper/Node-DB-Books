@@ -13,10 +13,10 @@ const router = express.Router();
 /*
 Si funciona la lectura...// Recogemos las query params de esta manera req.query.parametro
 Devolvemos los authors si funciona. Con modelo.find().
-La función limit se ejecuta sobre el .find() y le dice que coga un número limitado de elementos, 
+La función limit se ejecuta sobre el .find() y le dice que coga un número limitado de elementos,
 coge desde el inicio a no ser que le añadamos...
-La función skip() se ejecuta sobre el .find() y se salta un número determinado de elementos y 
-con este cálculo podemos paginar en función del limit. // Con populate le indicamos que si 
+La función skip() se ejecuta sobre el .find() y se salta un número determinado de elementos y
+con este cálculo podemos paginar en función del limit. // Con populate le indicamos que si
 recoge un id en la propiedad señalada rellene con los campos de datos que contenga ese id.
 Creamos una respuesta más completa con info de la API y los datos solicitados por el author:
 Esperamos aque realice el conteo del número total de elementos con modelo.countDocuments().
@@ -42,6 +42,7 @@ router.get("/", async (req, res) => {
     };
     res.json(response);
   } catch (error) {
+    console.error(error);
     res.status(500).json(error);
   }
 });
@@ -63,6 +64,7 @@ router.get("/:id", async (req, res) => {
       res.status(404).json({});
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json(error);
   }
 });
@@ -78,6 +80,7 @@ router.get("/name/:name", async (req, res) => {
       res.status(404).json([]);
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json(error);
   }
 });
@@ -90,6 +93,7 @@ router.post("/", async (req, res) => {
     const createdAuthor = await author.save();
     return res.status(201).json(createdAuthor);
   } catch (error) {
+    console.error(error);
     res.status(500).json(error);
   }
 });
@@ -106,6 +110,7 @@ router.delete("/:id", async (req, res) => {
       res.status(404).json({});
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json(error);
   }
 });
@@ -115,14 +120,19 @@ router.delete("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const authorUpdated = await Author.findByIdAndUpdate(id, req.body, { new: true });
+    const authorUpdated = await Author.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
     if (authorUpdated) {
       res.json(authorUpdated);
     } else {
       res.status(404).json({});
     }
   } catch (error) {
-    res.status(500).json(error);
+    console.error(error);
+    if (error?.name === "ValidationError") {
+      res.status(400).json(error);
+    } else {
+      res.status(500).json(error);
+    }
   }
 });
 

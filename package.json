@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint",
+    "normalize:books": "node ./Normalization/book.normalization.js",
     "seed:books": "node ./seeds/book.seed.js",
     "seed:authors": "node ./seeds/author.seed.js",
     "seed:book-relations": "node ./seeds/book-relationseed.seed.js",
     "seed:all": "npm run seed:authors && npm run seed:books && npm run seed:book-relations",
-    "start:watch": "node --watch index.js",
-    "start": "node index.js",
+    "start": "node --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install"
   },

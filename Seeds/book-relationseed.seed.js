@@ -33,6 +33,7 @@ const bookReslationsSeed = async () => {
 
     console.log("Relaciones entre libros-autores creadas correctamente.");
   } catch (error) {
+    console.error(error);
   } finally {
     mongoose.disconnect();
   }
