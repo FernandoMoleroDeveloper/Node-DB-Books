@@ -13,7 +13,7 @@ function App() {
 
   return (
     <div className="App">
-      <h2>Libros</h2>
+      <h2>Libros:</h2>
       <ul>
         {books?.data?.map((book) => (
           <li>{book.title}</li>
