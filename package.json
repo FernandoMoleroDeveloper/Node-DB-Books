@@ -4,7 +4,6 @@
   "description": "Hola este es el repo de template",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint",
     "normalize:books": "node ./Normalization/book.normalization.js",
     "normalize:authors": "node ./Normalization/author.normalization.js",
     "seed:books": "node ./seeds/book.seed.js",
@@ -13,7 +12,8 @@
     "seed:all": "npm run seed:authors && npm run seed:books && npm run seed:book-relations",
     "start": "node --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "eslint"
   },
   "keywords": [],
   "author": "Fernando Molero",
@@ -31,6 +31,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mongoose": "^7.0.4"
+    "mongoose": "^7.0.4",
+    "multer": "^1.4.5-lts.1"
   }
 }

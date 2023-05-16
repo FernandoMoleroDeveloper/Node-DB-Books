@@ -4,12 +4,14 @@
     // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-      {
-        "type": "node",
-        "request": "launch",
-        "name": "Iniciar el programa",
-        "skipFiles": ["<node_internals>/**"],
-        "program": "${workspaceFolder}/Routes/author.routes.js"
-      }
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Iniciar el programa",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/Routes/author.routes.js"
+        }
     ]
-  }
+}

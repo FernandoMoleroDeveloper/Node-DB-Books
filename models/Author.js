@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Creamos el schema del libro
-const allowedCountries = ["COLOMBIA", "ENGLAND", "RUSSIA", "UNITED STATES", "ARGENTINA", "CZECHOSLOVAKIA", "NIGERIA", "SPAIN"];
+const allowedCountries = ["COLOMBIA", "ENGLAND", "RUSSIA", "UNITED STATES", "ARGENTINA", "CZECHOSLOVAKIA", "NIGERIA", "SPAIN", "JAPAN"];
 const authorSchema = new Schema(
   {
     name: {
@@ -20,6 +20,10 @@ const authorSchema = new Schema(
       maxLength: [20, "Ese pais no se puede pronunciar"],
       enum: allowedCountries,
       uppercase: true,
+    },
+    authorImage: {
+      type: String,
+      required: false,
     },
   },
   {
