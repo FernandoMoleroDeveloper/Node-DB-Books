@@ -1,11 +1,13 @@
 const express = require("express");
 const fs = require("fs");
 const multer = require("multer");
+const bcrypt = require("bcrypt");
 
 const upload = multer({ dest: "public" });
 // Modelos
 const { Author } = require("../models/Author.js");
 const { Book } = require("../models/Book.js");
+const { isAuth } = require("../middlewares/auth.middleware.js");
 
 // Router propio de usuarios
 const router = express.Router();
@@ -113,9 +115,12 @@ router.post("/", async (req, res, next) => {
 
 // Endpoint para eliminar
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", isAuth, async (req, res, next) => {
   try {
     const id = req.params.id;
+    if (req.author.id !== id && req.author.email !== "admin@gmail.com") {
+      return res.status(404).json({ error: "No tienes autorizacion para realizar esta operacion" });
+    }
     const authorDeleted = await Author.findByIdAndDelete(id);
     if (authorDeleted) {
       res.json(authorDeleted);
@@ -129,12 +134,21 @@ router.delete("/:id", async (req, res, next) => {
 
 // Endpoint update
 
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", isAuth, async (req, res, next) => {
   try {
     const id = req.params.id;
-    const authorUpdated = await Author.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
-    if (authorUpdated) {
-      res.json(authorUpdated);
+    if (req.author.id !== id && req.author.email !== "admin@gmail.com") {
+      return res.status(404).json({ error: "No tienes autorizacion para realizar esta operacion" });
+    }
+
+    const authorToUpdate = await Author.findById(id);
+    if (authorToUpdate) {
+      Object.assign(authorToUpdate, req.body);
+      await authorToUpdate.save();
+      // quitamos pass de la respuesta
+      const authorToSend = authorToUpdate.toObject();
+      delete authorToSend.password;
+      res.json(authorToSend);
     } else {
       res.status(404).json({});
     }
@@ -164,6 +178,32 @@ router.post("/image-upload", upload.single("image"), async (req, res, next) => {
     } else {
       fs.unlinkSync(newPath);
       res.status(404).send("author no encontrado");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/login", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ error: "Se deben especificar los campos email y password" });
+    }
+
+    const author = await Author.findOne({ email }).select("+password");
+    if (!author) {
+      return res.status(401).json({ error: "Email y/o password incorrectos" });
+    }
+    const match = await bcrypt.compare(password, author.password);
+    if (match) {
+      const authorWithoutPass = author.toObject();
+      delete authorWithoutPass.password;
+
+      return res.status(200).json(authorWithoutPass);
+    } else {
+      return res.status(401).json({ error: "Email y/o password incorrectos" });
     }
   } catch (error) {
     next(error);
