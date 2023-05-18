@@ -8,6 +8,7 @@ const upload = multer({ dest: "public" });
 const { Author } = require("../models/Author.js");
 const { Book } = require("../models/Book.js");
 const { isAuth } = require("../middlewares/auth.middleware.js");
+const { generateToken } = require("../utils/token.js");
 
 // Router propio de usuarios
 const router = express.Router();
@@ -201,7 +202,9 @@ router.post("/login", async (req, res, next) => {
       const authorWithoutPass = author.toObject();
       delete authorWithoutPass.password;
 
-      return res.status(200).json(authorWithoutPass);
+      const jwtToken = generateToken(author._id, author.email);
+
+      return res.status(200).json({ token: jwtToken });
     } else {
       return res.status(401).json({ error: "Email y/o password incorrectos" });
     }
